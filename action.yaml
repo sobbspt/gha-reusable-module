@@ -33,6 +33,11 @@ runs:
         ls ${{ github.workspace }}
     - run: echo "🍏 This job's status is ${{ job.status }}."
       shell: bash
+    - name: DD action
+      uses: int128/datadog-actions-metrics@v1
+      with:
+        datadog-api-key: ${{ inputs.dd-api-key }}
+        collect-job-metrics: true
     - name: Build count
       uses: masci/datadog@v1
       with:
