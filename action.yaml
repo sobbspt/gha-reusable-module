@@ -1,30 +1,47 @@
-name: Datadog pusher
-on: [push]
-jobs:
-  simple-jobs:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} at ${{ github.head_ref }} repository has been cloned to the runner."
-      - run: echo "💡 The ${{ github.repository_owner }} is the owner of repository."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-      - name: Build count
-        uses: masci/datadog@v1
-        with:
-          api-key: ${{ secrets.DATADOG_API_KEY }}
-          metrics: |
-            - type: "count"
-              name: "test.runs.count"
-              value: 1.0
-              host: ${{ github.repository_owner }}
-              tags:
-                - "project:${{ github.repository }}"
-                - "branch:${{ github.head_ref }}"
+name: 'Hello World'
+description: 'Greet someone'
+inputs:
+  who-to-greet: # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+outputs:
+  random-number:
+    description: 'Random number'
+    value: ${{ steps.random-number-generator.outputs.random-id }}
+
+runs:
+  using: 'composite'
+  steps:
+    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      shell: bash
+    - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      shell: bash
+    - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      shell: bash
+    - name: Check out repository code
+      uses: actions/checkout@v3
+    - run: echo "💡 The ${{ github.repository }} at ${{ github.head_ref }} repository has been cloned to the runner."
+      shell: bash
+    - run: echo "💡 The ${{ github.repository_owner }} is the owner of repository."
+      shell: bash
+    - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      shell: bash
+    - name: List files in the repository
+      shell: bash
+      run: |
+        ls ${{ github.workspace }}
+    - run: echo "🍏 This job's status is ${{ job.status }}."
+      shell: bash
+    - name: Build count
+      uses: masci/datadog@v1
+      with:
+        api-key: ${{ secrets.DATADOG_API_KEY }}
+        metrics: |
+          - type: "count"
+            name: "test.runs.count"
+            value: 1.0
+            host: ${{ github.repository_owner }}
+            tags:
+              - "project:${{ github.repository }}"
+              - "branch:${{ github.head_ref }}"
