@@ -1,10 +1,10 @@
 name: 'Hello World'
 description: 'Greet someone'
 inputs:
-  who-to-greet: # id of input
-    description: 'Who to greet'
-    required: false
-    default: 'World'
+  dd-api-key: # id of input
+    description: 'DD'
+    required: true
+    default: ''
 outputs:
   random-number:
     description: 'Random number'
@@ -36,7 +36,7 @@ runs:
     - name: Build count
       uses: masci/datadog@v1
       with:
-        api-key: ${{ secrets.DATADOG_API_KEY }}
+        api-key: ${{ inputs.dd-api-key }}
         metrics: |
           - type: "count"
             name: "test.runs.count"
